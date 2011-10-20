@@ -126,7 +126,7 @@
             settings = settings || {};
 
             var imgUrl = this._makeUrl($link, settings);
-            var $img = this._buildHtml(imgUrl, settings.width, settings.height);
+            var $img = this._buildHtml(imgUrl, settings);
             this._insert($link, $img, settings.inside, settings.after);
         },
 
@@ -160,17 +160,19 @@
         /**
          * Build icon image element.
          * @param {String} url For icon image.
-         * @param {Number} [width] Default=16.
-         * @param {Number} [height] Default=16.
+         * @param {Object} settings Settings map.
          * @returns {HtmlElement} <img />
          */
-        _buildHtml: function(url, width, height, classes) {
-            height = parseInt(height);
+        _buildHtml: function(url, settings) {
+            settings = settings || {};
+            var that = this;
+
+            height = parseInt(settings.height);
             if (isNaN(height) || height < 1) {
                 height = 16;
             }
 
-            width = parseInt(width);
+            width = parseInt(settings.width);
             if (isNaN(width) || width < 1) {
                 width = 16;
             }
@@ -183,19 +185,10 @@
                     width: width
                 })
                 .addClass('gpfavicon')
-                .addClass(classes)
-                .error(function() {
-                    $(this).unbind('error', arguments.callee);
-                    gpFavicon.a_onerror.apply(this, arguments);
+                .addClass(settings.classes)
+                .one('error', function() {
+                    $(this).attr('src', settings.url || that.DEFAULT.url);
                 });
-        },
-
-        /**
-         * <this> is img element.
-         * @see #_buildHtml
-         */
-        a_onerror: function(event) {
-            this.src = gpFavicon.DEFAULT.url;
         },
 
         /**

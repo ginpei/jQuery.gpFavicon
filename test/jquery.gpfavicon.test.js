@@ -93,22 +93,39 @@ test('build icon img element', function() {
   equal($ico.attr('width'), '16', 'without width nor height');
   equal($ico.attr('height'), '16', 'without width nor height');
 
-  var $ico = gpFavicon._buildHtml('#', 32, -1, 'hoge fuga');
+  var settings = {
+    classes: 'hoge fuga',
+    height: -1,
+    width: 32
+  };
+  var $ico = gpFavicon._buildHtml('#', settings);
   equal($ico.attr('width'), '32', 'specified width');
   equal($ico.attr('height'), '16', 'minas height');
   ok($ico.hasClass('gpfavicon'), 'classes');
   ok($ico.hasClass('hoge'), 'classes');
   ok($ico.hasClass('fuga'), 'classes');
 
-  var $ico = gpFavicon._buildHtml('#', 0, 64);
+  var settings = {
+    height: 64,
+    width: 0
+  };
+  var $ico = gpFavicon._buildHtml('#', settings);
   equal($ico.attr('width'), '16', 'zero width');
   equal($ico.attr('height'), '64', 'specified height');
 
-  var $ico = gpFavicon._buildHtml('#', '1', 3.14);
+  var settings = {
+    height: 3.14,
+    width: '1'
+  };
+  var $ico = gpFavicon._buildHtml('#', settings);
   equal($ico.attr('width'), '1', 'string width');
   equal($ico.attr('height'), '3', 'decimal height');
 
-  var $ico = gpFavicon._buildHtml('#', null, new Date());
+  var settings = {
+    height: null,
+    width: new Date()
+  };
+  var $ico = gpFavicon._buildHtml('#', settings);
   equal($ico.attr('width'), '16', 'invald width');
   equal($ico.attr('height'), '16', 'invald height');
 });
@@ -160,7 +177,7 @@ test('insert icon', function() {
   equal($container.children()[1], $icon[0], 'outside after');
 });
 
-test('jQuery interface', function() {
+test('setting.self', function() {
   $link = $('<a />').attr('href', 'http://example.com').text('text');
   $link.gpFavicon();
   ok($($link.contents()[0]).hasClass('gpfavicon'), 'target is link');
@@ -172,4 +189,19 @@ test('jQuery interface', function() {
   $link = $('<a />').attr('href', '/').text('text');
   $link.gpFavicon({ self: true });
   ok($($link.contents()[0]).hasClass('gpfavicon'), 'target is link to own site but forced');
+});
+
+test('setting.url', function() {
+  $link = $('<a />').attr('href', 'http://example.com').text('text');
+  $link.gpFavicon({ url: 'about:blank' });
+  stop();
+  (function() {
+    if ($link.find('img').attr('src') == 'about:blank') {
+      ok('specified url');
+      start();
+    }
+    else {
+      setTimeout(arguments.callee, 10);
+    }
+  }());
 });
