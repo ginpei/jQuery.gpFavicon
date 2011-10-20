@@ -86,55 +86,56 @@ test('make favicon url', function() {
 });
 
 test('build icon img element', function() {
-  var $ico = gpFavicon._buildHtml('#');
-  equal($ico.attr('src'), '#', 'without width nor height');
-  equal($ico.attr('alt'), '', 'without width nor height');
-  ok($ico.hasClass('gpfavicon'), 'without width nor height');
-  equal($ico.attr('width'), '16', 'without width nor height');
-  equal($ico.attr('height'), '16', 'without width nor height');
+  var $img = gpFavicon._buildHtml('#');
+  equal($img.attr('src'), '#', 'without width nor height');
+  equal($img.attr('alt'), '', 'without width nor height');
+  ok($img.hasClass('gpfavicon'), 'without width nor height');
+  equal($img.attr('width'), '16', 'without width nor height');
+  equal($img.attr('height'), '16', 'without width nor height');
 
   var settings = {
     classes: 'hoge fuga',
     height: -1,
     width: 32
   };
-  var $ico = gpFavicon._buildHtml('#', settings);
-  equal($ico.attr('width'), '32', 'specified width');
-  equal($ico.attr('height'), '16', 'minas height');
-  ok($ico.hasClass('gpfavicon'), 'classes');
-  ok($ico.hasClass('hoge'), 'classes');
-  ok($ico.hasClass('fuga'), 'classes');
+  var $img = gpFavicon._buildHtml('#', settings);
+  equal($img.attr('width'), '32', 'specified width');
+  equal($img.attr('height'), '16', 'minas height');
+  ok($img.hasClass('gpfavicon'), 'without width nor height');
+  ok($img.hasClass('gpfavicon'), 'classes');
+  ok($img.hasClass('hoge'), 'classes');
+  ok($img.hasClass('fuga'), 'classes');
 
   var settings = {
     height: 64,
     width: 0
   };
-  var $ico = gpFavicon._buildHtml('#', settings);
-  equal($ico.attr('width'), '16', 'zero width');
-  equal($ico.attr('height'), '64', 'specified height');
+  var $img = gpFavicon._buildHtml('#', settings);
+  equal($img.attr('width'), '16', 'zero width');
+  equal($img.attr('height'), '64', 'specified height');
 
   var settings = {
     height: 3.14,
     width: '1'
   };
-  var $ico = gpFavicon._buildHtml('#', settings);
-  equal($ico.attr('width'), '1', 'string width');
-  equal($ico.attr('height'), '3', 'decimal height');
+  var $img = gpFavicon._buildHtml('#', settings);
+  equal($img.attr('width'), '1', 'string width');
+  equal($img.attr('height'), '3', 'decimal height');
 
   var settings = {
     height: null,
     width: new Date()
   };
-  var $ico = gpFavicon._buildHtml('#', settings);
-  equal($ico.attr('width'), '16', 'invald width');
-  equal($ico.attr('height'), '16', 'invald height');
+  var $img = gpFavicon._buildHtml('#', settings);
+  equal($img.attr('width'), '16', 'invald width');
+  equal($img.attr('height'), '16', 'invald height');
 });
 
 test('default icon when errored', function() {
   stop();
-  var $ico = gpFavicon._buildHtml('about:blank');
+  var $img = gpFavicon._buildHtml('about:blank');
   (function() {
-    if ($ico.attr('src') == gpFavicon.DEFAULT.url) {
+    if ($img.attr('src') == gpFavicon.DEFAULT.url) {
       start();
     }
     else {
@@ -178,7 +179,7 @@ test('insert icon', function() {
 });
 
 test('setting.self', function() {
-  $link = $('<a />').attr('href', 'http://example.com').text('text');
+  var $link = $('<a />').attr('href', 'http://example.com').text('text');
   $link.gpFavicon();
   ok($($link.contents()[0]).hasClass('gpfavicon'), 'target is link');
 
@@ -192,7 +193,7 @@ test('setting.self', function() {
 });
 
 test('setting.url', function() {
-  $link = $('<a />').attr('href', 'http://example.com').text('text');
+  var $link = $('<a />').attr('href', 'http://example.com').text('text');
   $link.gpFavicon({ url: 'about:blank' });
   stop();
   (function() {
@@ -204,4 +205,13 @@ test('setting.url', function() {
       setTimeout(arguments.callee, 10);
     }
   }());
+});
+
+test('setting.url', function() {
+  var $link = $('<a />').attr('href', 'http://example.com');
+  $link.gpFavicon({ classes: 'hoge fuga' });
+  $img = $link.children('img');
+  ok($img.hasClass('gpfavicon'), 'classes');
+  ok($img.hasClass('hoge'), 'classes');
+  ok($img.hasClass('fuga'), 'classes');
 });
