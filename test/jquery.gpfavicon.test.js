@@ -159,3 +159,17 @@ test('insert icon', function() {
   equal($container.children()[0], $link[0], 'outside after');
   equal($container.children()[1], $icon[0], 'outside after');
 });
+
+test('jQuery interface', function() {
+  $link = $('<a />').attr('href', 'http://example.com').text('text');
+  $link.gpFavicon();
+  ok($($link.contents()[0]).hasClass('gpfavicon'), 'target is link');
+
+  $link = $('<a />').attr('href', '/').text('text');
+  $link.gpFavicon();
+  ok(!$($link.contents()[0]).hasClass('gpfavicon'), 'target is link to own site');
+
+  $link = $('<a />').attr('href', '/').text('text');
+  $link.gpFavicon({ self: true });
+  ok($($link.contents()[0]).hasClass('gpfavicon'), 'target is link to own site but forced');
+});

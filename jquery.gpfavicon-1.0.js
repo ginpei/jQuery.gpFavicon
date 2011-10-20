@@ -77,7 +77,7 @@
          * @param {Object} settings Settings map.
          */
         exec: function($el, settings) {
-            if (this._isAvailable($el)) {
+            if (this._isAvailable($el, settings)) {
                 this.build($el, settings);
             }
             else {
