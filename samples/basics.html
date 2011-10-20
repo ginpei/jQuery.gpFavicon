@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+
+<!-- There are JavaScript sample codes in bottom. -->
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery.gpFavicon</title>
+  <style type="text/css">
+body {
+    font-family: "Times", "Times New Roman", serif;
+}
+pre {
+    background-color: #fffff0;
+    border: ridge 2px;
+    display: inline-block;
+    font-family: 'Courier', 'Courier New', monospace;
+    padding: 1em;
+}
+img {
+    border-style: none;
+}
+  </style>
+</head>
+<body>
+  <h1>jQuery.gpFavicon</h1>
+  <div id="main">
+    <p>Show favicon to links.</p>
+    <p>for: IE 6+, Firefox, Chrome, Safari, Opera</p>
+    <p>
+      <pre>$(document).gpFavicon();
+$(elem).gpFavicon();
+$(link).gpFavicon();</pre>
+    </p>
+    <ul>
+      <li><a href="http://google.com">Google</a></li>
+      <li><a href="http://yahoo.com">Yahoo!</a></li>
+      <li><a href="http://twitter.com">twitter</a></li>
+      <li><a href="http://example.com">example.com</a> (no favicon; default icon)</li>
+      <li><a href="/">Root of THIS site.</a> (own site; no icons)</li>
+    </ul>
+    <p>
+      See sample codes in HTML source,<br />
+      and more informations in: <a href="http://ginpen.com/jquery/gpfavicon/">Ginpen.com</a>.
+    </p>
+  </div>
+  <div>
+    <script src="jquery-1.6.2.min.js"></script>
+    <script src="../jquery.gpfavicon-1.0.js"></script>
+    <script>
+(function() {
+    $(document).gpFavicon({
+        /*
+        after: false,  // Insert image after link if this is true. Default=false.
+        classes: null,  // Class names will be added to the images. You can specify multi names sepalated by space.
+        inside: true,  // Append image under link element if this is true. Default=true.
+        self: false,  // Add icon to own site links if this is true. Default=false.
+        url: 'data://...',  // Default favicon url. Default is a Data URI.
+        */
+    });
+}());
+    </script>
+  </div>
+</body>
+</html>
